@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+char	**create_field(int n);
+char	**free_field(char **field, int field_size);
+
 char	**create_field(int n)
 {
 	char	**field;
@@ -27,17 +30,34 @@ char	**create_field(int n)
 	return (field);
 }
 
-int	main(int ac, char *av)
+char	**free_field(char **field, int field_size)
 {
-	int n = 4;
-	char **field = create_field(n);
+	int	i;
 
-	int i = 0;
-	while (i < n)
+	i = 0;
+	while (i < field_size)
 	{
-		printf("%s\n", field[i]);
 		free(field[i]);
 		i++;
 	}
 	free(field);
+	field = NULL;
+	return (field);
+}
+
+int	main(int ac, char **av)
+{
+	int		n;
+	char	**field;
+	int		i;
+
+	n = 4;
+	field = create_field(n);
+		i = 0;
+	while (i < n)
+	{
+		printf("%s\n", field[i]);
+		i++;
+	}
+	field = free_field(field, n);
 }
