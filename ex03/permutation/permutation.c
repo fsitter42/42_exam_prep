@@ -61,7 +61,7 @@ void	perm(char *s, int start, int end)
 
 int	main(void)
 {
-	char str[4] = "bac";
+	char str[42] = "askeijhg";
 	sort(str);
 	// printf("%s\n", str);
 	perm(str, 0, strlen(str) - 1);
