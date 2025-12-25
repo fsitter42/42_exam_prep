@@ -147,7 +147,7 @@ int	main(int ac, char **av)
 	char	**field;
 	int		i;
 
-	n = 4;
+	n = 7;
 	field = create_field(n);
 	// field[0][1] = 'Q';
 	// field[1][3] = 'Q';
@@ -155,8 +155,8 @@ int	main(int ac, char **av)
 	// field[3][2] = 'Q';
 	// print
 	i = 0;
-	while (i < n)
-		printf("%s\n", field[i++]);
+	// while (i < n)
+	// 	printf("%s\n", field[i++]);
 	n_queens(field, 0, n);
 	// free
 	field = free_field(field, n);
