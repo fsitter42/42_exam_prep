@@ -5,27 +5,65 @@
 char	**create_field(int n);
 char	**free_field(char **field, int field_size);
 void	n_queens(char **field, int start, int end);
-int		safe();
+int		safe(char **field, int x, int y, int end);
 
-int safe()
+int	safe(char **field, int x, int y, int end)
 {
-	return 1;
+	int real_x = x;
+	int real_y = y;
+	while (x > 0 && y > 0)
+	{
+		x--;
+		y--;
+		if (field[x][y] == 81)
+		{
+			// write(1, "not safe\n", 10);
+			return (0);
+		}
+	}
+	x = real_x;
+	y = real_y;
+	while (x > 0 && y < end)
+	{
+		x--;
+		y++;
+		if (field[x][y] == 81)
+		{
+			// write(1, "not safe\n", 10);
+			return (0);
+		}
+	}
+	x = real_x;
+	y = real_y;
+	while (x > 0)
+	{
+		x--;
+		if (field[x][y] == 81)
+		{
+			// write(1, "not safe\n", 10);
+			return (0);
+		}
+	}
+	return (1);
 }
 
 void	n_queens(char **field, int start, int end)
 {
+	int	i;
+	int j;
+	int queen;
+	int	col;
+
 	if (start == end)
 	{
-		int i = 0;
-		int j;
-		int queen;
-		while (i < end-1)
+		i = 0;
+		while (i < end - 1)
 		{
 			j = 0;
 			queen = 0;
 			while (j < end)
 			{
-				if (field[i][j] != 48)   
+				if (field[i][j] != 48)
 				{
 					queen = j;
 				}
@@ -48,20 +86,19 @@ void	n_queens(char **field, int start, int end)
 	}
 	else
 	{
-		int col = 0;
+		col = 0;
 		while (col < end)
 		{
-			if (safe())
+			if (safe(field, start, col, end))
 			{
 				field[start][col] = 81;
-				n_queens(field, start+1, end);
+				n_queens(field, start + 1, end);
 				field[start][col] = 48;
 			}
 			col++;
 		}
 	}
 }
-
 
 char	**create_field(int n)
 {
@@ -112,18 +149,14 @@ int	main(int ac, char **av)
 
 	n = 4;
 	field = create_field(n);
-
 	// field[0][1] = 'Q';
 	// field[1][3] = 'Q';
 	// field[2][0] = 'Q';
 	// field[3][2] = 'Q';
-
-
 	// print
 	i = 0;
 	while (i < n)
 		printf("%s\n", field[i++]);
-
 	n_queens(field, 0, n);
 	// free
 	field = free_field(field, n);
