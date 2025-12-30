@@ -54,7 +54,7 @@ int	main(int ac, char **av)
 	data.where_am_i = 0;
 	data.to_filter = av[1];
 	data.to_filter_len = strlen(av[1]);
-	while ((data.bytes = read(0, data.temp, BUFFER_SIZE)) > 0)
+	while ((data.bytes = read(0, data.temp, BUFFER_SIZE - BUFFER_SIZE + 1)) > 0)
 	{
 		buffer = realloc(data.result, data.where_am_i + data.bytes + 1);
 		if (!buffer)
