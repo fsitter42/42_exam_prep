@@ -46,4 +46,3 @@ of get_next_line.
 Finally, we consider that get_next_line has undefined behavior when reading
 from a binary file.
 --------------------------------------------------------------------------------
-
