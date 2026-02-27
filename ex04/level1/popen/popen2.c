@@ -17,14 +17,19 @@ int	ft_popen(const char *file, char *const argv[], char type)
 	if (pipe(fd) == -1)
 		return (-1);
 	if ((pid = fork()) == -1)
+    {
+        close(fd[0]);
+        close(fd[1]);
         return (-1);
+    }
     if (type == 'r')
     {
         if (pid == 0)
         {
             //close the read, plug the write to 1, close write, call system, exit on error
             close(fd[0]);
-            dup2(fd[1], 1);
+            if ((dup2(fd[1], 1)) == -1)
+				exit(1);
             close(fd[1]);
             execvp(file, argv);
             exit(127);
@@ -41,7 +46,8 @@ int	ft_popen(const char *file, char *const argv[], char type)
         {
             //close the write, plug read to 0, close read, systemcall, exit on error
             close(fd[1]);
-            dup2(fd[0], 0);
+            if ((dup2(fd[0], 0)) == -1)
+				exit(1);
             close(fd[0]);
             execvp(file, argv);
             exit(127);

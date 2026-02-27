@@ -15,7 +15,11 @@ int	ft_popen(const char *file, char *const argv[], char type)
 	if (pipe(fds) == -1)
 		return (-1);
 	if ((pid = fork()) == -1)
-		return (-1);
+    {
+        close(fds[0]);
+        close(fds[1]);
+        return (-1);
+    }
 	if (type == 'r')
 	{
 		if (pid == 0)
@@ -23,7 +27,8 @@ int	ft_popen(const char *file, char *const argv[], char type)
 			//close the read
 			close(fds[0]);
 			//stecker von write in loch von stdout
-			dup2(fds[1], 1);
+			if ((dup2(fds[1], 1)) == -1)
+				exit(1);
 			//close den write
 			close(fds[1]);
 			//execvp von file
@@ -47,7 +52,8 @@ int	ft_popen(const char *file, char *const argv[], char type)
 			//close write
 			close(fds[1]);
 			// stecker von read and stdin
-			dup2(fds[0], 0);
+			if ((dup2(fds[0], 0)) == -1)
+				exit(1);
 			//close read
 			close(fds[0]);
 			execvp(file, argv);
