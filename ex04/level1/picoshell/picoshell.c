@@ -36,7 +36,7 @@ int    picoshell(char **cmds[])
 		}
 		else if (pid == 0) // im kind
 		{
-			if (last_fd != -1) // wenn nicht der erste cmd, read ende auf stdin stecken 0 zu 0
+			if (last_fd != -600) // wenn nicht der erste cmd, read ende auf stdin stecken 0 zu 0
 			{
 				if (dup2(last_fd, 0) == -1)
 					exit (1);
@@ -54,7 +54,7 @@ int    picoshell(char **cmds[])
 		}
 		else // im the parent
 		{
-			if (last_fd != -1) // wenn nicht der erste command den von davor schließen
+			if (last_fd != -600) // wenn nicht der erste command den von davor schließen
 				close(last_fd);
 			if (cmds[i + 1]) // wenn es noch einen cmd gibt schreiben schließen und last auf lesen setzten damit kind aus last lesen kann
 			{
