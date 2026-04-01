@@ -2,6 +2,10 @@
 
 char *s;
 
+int f_sum();
+int f_product();
+int f_factor();
+
 void unexpected(char c)
 {
     if(c)
@@ -37,14 +41,50 @@ int check_input(char *str)
 		return (unexpected(last), 1);	
 }
 
+int f_sum()
+{
+	int sum = f_product();
+	while (*s == '+')
+	{
+		s++;
+		sum += f_product();
+	}
+	return (sum);
+}
+
+int f_product()
+{
+	int prod = f_factor();
+	
+	while (*s == '*')
+	{
+		s++;
+		prod *= f_factor();
+	}
+	return (prod);
+}
+
+int f_factor()
+{
+	int fact = 0;
+	if (isdigit(*s))
+		return (*s++ - '0');
+	if (*s == '(')
+	{
+		s++;
+		fact = f_sum();
+		s++;
+	}
+	return (fact);
+}
+
 int main(int ac, char *av[])
 {
 	if (ac != 2)
 		return (1);
 	if (check_input(av[1]))
 		return (1);
-	printf("correct\n");
-	// s = av[1];
-	// int res = f_sum();
-	// printf("%i\n", res);
+	s = av[1];
+	int res = f_sum();
+	printf("%i\n", res);
 }
