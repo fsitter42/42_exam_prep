@@ -20,6 +20,8 @@ int check_input(char *str)
 	int bal = 0;
 	char last;
 
+	if (str[0] == '+' || str[0] == '*' || str[0] == ')')
+        return (unexpected(str[0]), 1);
 	while (str[i])
 	{
 		if (str[i] == '(')
@@ -27,6 +29,14 @@ int check_input(char *str)
 		else if (str[i] == ')')
 			bal--;
 		else if (isdigit(str[i]) && isdigit(str[i+1]))
+			return (unexpected(str[i+1]), 1);
+		else if(str[i] == '*' && str[i+1] == '*')
+			return (unexpected(str[i+1]), 1);
+		else if(str[i] == '*' && str[i+1] == '+')
+			return (unexpected(str[i+1]), 1);
+		else if(str[i] == '+' && str[i+1] == '*')
+			return (unexpected(str[i+1]), 1);
+		else if(str[i] == '+' && str[i+1] == '+')
 			return (unexpected(str[i+1]), 1);
 		else if (!isdigit(str[i]) && str[i] != '*' && str[i] != '+' && str[i] != '(' && str[i] != ')')
 			return (unexpected(str[i]), 1);
